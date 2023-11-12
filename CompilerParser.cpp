@@ -69,7 +69,6 @@ ParseTree* CompilerParser::compileClass() {
 ParseTree* CompilerParser::compileClassVarDec() {
     ParseTree* classVarDec = new ParseTree("classVarDec", "");
 
-    
     if (have("keyword", "static")) {
         classVarDec->addChild(new ParseTree("keyword", "static"));
         next();
@@ -86,7 +85,7 @@ ParseTree* CompilerParser::compileClassVarDec() {
     }
 
     
-    if (have("identifier", "")) {
+    if (have("identifier", current()->getValue())) {
         classVarDec->addChild(new ParseTree("identifier", current()->getValue()));
         next();
     } else {
