@@ -304,21 +304,21 @@ ParseTree* CompilerParser::compileDo() {
 ParseTree* CompilerParser::compileReturn() {
     ParseTree* return1 = new ParseTree("return", "");
     if (have("keyword", "return")) {
-        return1->addChild(new ParseTree("keyword", "return"));
+        return1->addChild(current());
         next();
     } else {
         throw ParseException();
     }
 
-    if (have("keyword", "skip")) {
-        return1->addChild(compileExpression());
+    while (have("keyword", "skip")) {
+        ParseTree* expression = compileExpression();
+        return1->addChild(expression);
         next();
-    } else {
-        throw ParseException();
     }
+
 
     if (have("symbol", ";")) {
-        return1->addChild(new ParseTree("symbol", ";"));
+        return1->addChild(current());
     } else {
         throw ParseException();
     }
@@ -331,15 +331,12 @@ ParseTree* CompilerParser::compileReturn() {
     
 }
 
-/**
- * Generates a parse tree for an expression
- * @return a ParseTree
- */
+
 ParseTree* CompilerParser::compileExpression() {
     ParseTree* expression = new ParseTree("expression", "");
 
     if (have("keyword", "skip")) {
-        expression->addChild(new ParseTree("keyword", "skip"));
+        expression->addChild(current());
     } else {
         throw ParseException();
     }
