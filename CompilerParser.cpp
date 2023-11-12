@@ -166,45 +166,42 @@ ParseTree* CompilerParser::compileSubroutine() {
 
 
 ParseTree* CompilerParser::compileParameterList() {
-    ParseTree* parameter = new ParseTree("parameterList", "");
+     ParseTree* parameterList = new ParseTree("parameterList", "");
 
-    if (have("keyword", "int")) {
-        parameter->addChild(new ParseTree("keyword", "int"));
-        next();
-    } else {
-        throw ParseException();
+    bool firstParameter = true; 
+
+    while (true) {
+        if (firstParameter || have("symbol", ",")) {
+           
+            if (!firstParameter) {
+                parameterList->addChild(new ParseTree("symbol", ","));
+                next();
+            }
+
+           
+            if (have("keyword", "int") || have("keyword", "char") || have("keyword", "boolean") || have("identifier", current()->getValue())) {
+                parameterList->addChild(new ParseTree("keyword", current()->getValue()));
+                next();
+            } else {
+                throw ParseException();
+            }
+
+            // Parse the parameter name
+            if (have("identifier", current()->getValue())) {
+                parameterList->addChild(new ParseTree("identifier", current()->getValue()));
+                next();
+            } else {
+                throw ParseException();
+            }
+
+            firstParameter = false;
+        } else {
+         
+            break;
+        }
     }
 
-    if (have("identifier", current()->getValue())) {
-        parameter->addChild(new ParseTree("identifier", current()->getValue()));
-        next();
-    } else {
-        throw ParseException();
-    }
-
-    if (have("symbol", ",")) {
-        parameter->addChild(new ParseTree("symbol", ","));
-        next();
-    } else {
-        throw ParseException();
-    }
-
-
-
-    if (have("keyword", "char")) {
-        parameter->addChild(new ParseTree("keyword", "char"));
-        next();
-    } else {
-        throw ParseException();
-    }
-
-    if (have("identifier", current()->getValue())) {
-        parameter->addChild(new ParseTree("identifier", current()->getValue()));
-        next();
-    } else {
-        throw ParseException();
-    }
-    return parameter;
+    return parameterList;
     return NULL;
 }
 
