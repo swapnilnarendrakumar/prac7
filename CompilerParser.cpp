@@ -310,6 +310,7 @@ ParseTree* CompilerParser::compileReturn() {
         throw ParseException();
     }
     return1->addChild(compileExpression());
+    next();
 
     if (have("symbol", ";")) {
         return1->addChild(new ParseTree("symbol", ";"));
@@ -334,8 +335,7 @@ ParseTree* CompilerParser::compileExpression() {
 
     if (have("keyword", "skip")) {
         expression->addChild(new ParseTree("keyword", "skip"));
-        next();
-        return expression;
+       return expression;
     } else {
         throw ParseException();
     }
