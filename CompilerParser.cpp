@@ -67,6 +67,40 @@ ParseTree* CompilerParser::compileClass() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileClassVarDec() {
+    ParseTree* classVarDec = new ParseTree("classVarDec", "");
+
+    
+    if (have("keyword", "static")) {
+        classVarDec->addChild(new ParseTree("keyword", "static"));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    
+    if (have("keyword", "int")) {
+        classVarDec->addChild(new ParseTree("keyword", "int"));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    
+    if (have("identifier", "")) {
+        classVarDec->addChild(new ParseTree("identifier", current()->getValue()));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+   
+    if (have("symbol", ";")) {
+        classVarDec->addChild(new ParseTree("symbol", ";"));
+    } else {
+        throw ParseException();
+    }
+
+    return classVarDec;
     return NULL;
 }
 
