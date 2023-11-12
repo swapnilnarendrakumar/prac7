@@ -302,6 +302,27 @@ ParseTree* CompilerParser::compileDo() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileReturn() {
+    ParseTree* return1 = new ParseTree("return", "");
+    if (have("keyword", "return")) {
+        return1->addChild(new ParseTree("keyword", "return"));
+        next();
+    } else {
+        throw ParseException();
+    }
+    return1->addChild(compileExpression());
+
+    if (have("symbol", ";")) {
+        return1->addChild(new ParseTree("symbol", ";"));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+
+
+
+
+    return return1;
     return NULL;
 }
 
