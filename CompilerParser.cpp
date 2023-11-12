@@ -18,29 +18,27 @@ CompilerParser::CompilerParser(std::list<Token*> tokens) {
 ParseTree* CompilerParser::compileProgram() {
     ParseTree* program = new ParseTree("keyword", "class");
 
-    // Check for a "class" keyword
     if (have("keyword", "class")) {
         program->addChild(new ParseTree("keyword", "class"));
     } else {
         throw ParseException();
     }
 
-    // Expect an identifier (e.g., "Main")
-    if (have("identifier", "")) {
+    
+    if (have("identifier", current()->getValue())) {
         program->addChild(new ParseTree("identifier", current()->getValue()));
         next();
     } else {
         throw ParseException();
     }
 
-    // Expect an opening curly brace
+    
     if (have("symbol", "{")) {
         program->addChild(new ParseTree("symbol", "{"));
     } else {
         throw ParseException();
     }
 
-    // Expect a closing curly brace
     if (have("symbol", "}")) {
         program->addChild(new ParseTree("symbol", "}"));
     } else {
@@ -201,7 +199,9 @@ bool CompilerParser::have(std::string expectedType, std::string expectedValue){
         (*currentToken)->getType() == expectedType && (*currentToken)->getValue() == expectedValue) {
         return true;
          }
+    else{
     return false;
+    }
 }
 
 /**
