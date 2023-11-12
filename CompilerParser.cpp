@@ -353,7 +353,74 @@ ParseTree* CompilerParser::compileLet() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileIf() {
-    return NULL;
+    ParseTree* ifst = new ParseTree("ifStatement", "");
+
+    if (have("keyword", "if")) {
+        ifst->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("symbol", "(")) {
+        ifst->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("keyword", "skip")) {
+        ParseTree* expression = compileExpression();
+        ifst->addChild(expression);
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("symbol", ")")) {
+        ifst->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+
+
+
+    if (have("symbol", "{")) {
+        ifst->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+     if (have("symbol", "}")) {
+        ifst->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+    if (have("keyword", "else")) {
+        ifst->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+    
+    if (have("symbol", "{")) {
+        ifst->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+     if (have("symbol", "}")) {
+        ifst->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+
+
+    return ifst;
+
 }
 
 /**
