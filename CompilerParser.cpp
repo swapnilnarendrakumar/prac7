@@ -89,20 +89,20 @@ ParseTree* CompilerParser::compileClass() {
 ParseTree* CompilerParser::compileClassVarDec() {
      ParseTree* classVarDec = new ParseTree("classVarDec", "");
 
-    if (have("keyword", "static")) {
-        classVarDec->addChild(new ParseTree("keyword", "static"));
+    if (have("keyword", "static") || have("keyword", "field")) {
+        classVarDec->addChild(new ParseTree("keyword", current()->getValue()));
         next();
     } else {
         throw ParseException();
     }
 
-    
-    if (have("keyword", "int")) {
-        classVarDec->addChild(new ParseTree("keyword", "int"));
+    if (have("keyword", "int") || have("keyword", "char") || have("keyword", "boolean") || have("identifier", current()->getValue())) {
+        classVarDec->addChild(new ParseTree("keyword", current()->getValue()));
         next();
     } else {
         throw ParseException();
     }
+
     do {
         if (have("identifier", current()->getValue())) {
             classVarDec->addChild(new ParseTree("identifier", current()->getValue()));
@@ -120,12 +120,47 @@ ParseTree* CompilerParser::compileClassVarDec() {
             throw ParseException();
         }
     } while (!have("symbol", ";"));
+
     return classVarDec;
+
+    
     return NULL;
 }
 
 
 ParseTree* CompilerParser::compileSubroutine() {
+    ParseTree* subroutine = new ParseTree("subroutine", "");
+
+    if (have("keyword", "int")) {
+        subroutine->addChild(new ParseTree("keyword", "function"));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("keyword", "int")) {
+        subroutine->addChild(new ParseTree("keyword", "void"));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("identifier", current()->getValue())) {
+        subroutine->addChild(new ParseTree("identifier", current()->getValue()));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("symbol", "{")) {
+        subroutine->addChild(new ParseTree("symbol", "{"));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+
+
     return NULL;
 }
 
