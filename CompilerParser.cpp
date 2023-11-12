@@ -69,7 +69,10 @@ ParseTree* CompilerParser::compileClass() {
         throw ParseException();
     }
 
-    class1->addChild(compileClassVarDec());
+    while (have("keyword", "field") || have("keyword", "static")) {
+        ParseTree* implement = compileClassVarDec();
+        class1->addChild(implement);
+    } 
     
 
 
