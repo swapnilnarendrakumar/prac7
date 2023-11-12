@@ -294,9 +294,9 @@ ParseTree* CompilerParser::compileWhile() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileDo() {
-    ParseTree* dost = new ParseTree("doStatement", "");
+    ParseTree* dot = new ParseTree("doStatement", "");
     if (have("keyword", "do")) {
-        dost->addChild(current());
+        dot->addChild(current());
         next();
     } else {
         throw ParseException();
@@ -304,7 +304,7 @@ ParseTree* CompilerParser::compileDo() {
 
    if (have("keyword", "skip")) {
         ParseTree* expression = compileExpression();
-        dost->addChild(expression);
+        dot->addChild(expression);
         next();
     } else {
         throw ParseException();
@@ -312,15 +312,15 @@ ParseTree* CompilerParser::compileDo() {
 
 
     if (have("symbol", ";")) {
-        dost->addChild(current());
+        dot->addChild(current());
         next();
     } else {
         throw ParseException();
     }
 
 
-
-    return NULL;
+    return dot;
+   
 }
 
 /**
