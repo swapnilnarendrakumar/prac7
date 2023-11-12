@@ -15,10 +15,7 @@ class CompilerParser {
 
 
     public:
-        CompilerParser(std::list<Token*> tokens){
-             this->tokens = tokens;
-             this->currentToken = this->tokens.begin();
-        };
+        CompilerParser(std::list<Token*> tokens);
 
         ParseTree* compileProgram();
         ParseTree* compileClass();

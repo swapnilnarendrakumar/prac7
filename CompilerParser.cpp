@@ -5,7 +5,10 @@
  * Constructor for the CompilerParser
  * @param tokens A linked list of tokens to be parsed
  */
-
+CompilerParser::CompilerParser(std::list<Token*> tokens) {
+    this->tokens = tokens;
+    this->currentToken = this->tokens.begin();
+}
 
 
 /**
@@ -45,6 +48,7 @@ ParseTree* CompilerParser::compileProgram() {
     }
 
     return program;
+    return NULL;
 }
 
 /**
