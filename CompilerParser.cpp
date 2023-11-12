@@ -59,6 +59,43 @@ ParseTree* CompilerParser::compileProgram() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileClass() {
+    ParseTree* class1 = new ParseTree("class", "");
+
+      if (have("keyword", "class")) {
+        class1->addChild(new ParseTree("keyword", "class"));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("identifier", current()->getValue())) {
+        class1->addChild(new ParseTree("identifier", current()->getValue()));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("symbol", "{")) {
+        class1->addChild(new ParseTree("symbol", "{"));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    class1->addChild(compileClassVarDec());
+    
+
+
+    if (have("symbol", "}")) {
+        class1->addChild(new ParseTree("symbol", "}"));
+    } else {
+        throw ParseException();
+    }
+
+
+    
+
+    return class1;
     return NULL;
 }
 
@@ -89,12 +126,13 @@ ParseTree* CompilerParser::compileClassVarDec() {
         classVarDec->addChild(new ParseTree("identifier", current()->getValue()));
         next();
     } else {
-        //throw ParseException();
+        throw ParseException();
     }
 
    
     if (have("symbol", ";")) {
         classVarDec->addChild(new ParseTree("symbol", ";"));
+        next();
     } else {
         throw ParseException();
     }
