@@ -50,7 +50,7 @@ ParseTree* CompilerParser::compileProgram() {
     }
 
     return program;
-    return NULL;
+    
    
 }
 
@@ -96,7 +96,7 @@ ParseTree* CompilerParser::compileClass() {
     
 
     return class1;
-    return NULL;
+    
 }
 
 /**
@@ -138,7 +138,7 @@ ParseTree* CompilerParser::compileClassVarDec() {
     }
 
     return classVarDec;
-    return NULL;
+   
 }
 
 /**
