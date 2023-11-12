@@ -210,7 +210,36 @@ ParseTree* CompilerParser::compileParameterList() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileSubroutineBody() {
-    return NULL;
+     ParseTree* body = new ParseTree("subroutineBody", "");
+
+    if (have("symbol","{")) {
+        body->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("keyword", "var")) {
+        ParseTree* Dec = compileVarDec();
+        body->addChild(Dec);
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("keyword", "if") || have("keyword", "let") || have("keyword", "return") || have("keyword", "do") || have("keyword", "while")) {
+        ParseTree* statement = compileStatements();
+        body->addChild(statement);
+    }
+
+
+    if (have("symbol","}")) {
+        body->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+    return body;
 }
 
 
@@ -404,7 +433,7 @@ ParseTree* CompilerParser::compileIf() {
     } else {
         throw ParseException();
     }
-    
+
     if (have("symbol", "{")) {
         ifst->addChild(current());
         next();
