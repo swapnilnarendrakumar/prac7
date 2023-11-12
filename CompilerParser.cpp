@@ -26,7 +26,7 @@ ParseTree* CompilerParser::compileProgram() {
     }
 
     // Expect an identifier (e.g., "Main")
-    if (have("identifier", current()->getValue())) {
+    if (have("identifier", "")) {
         program->addChild(new ParseTree("identifier", current()->getValue()));
         next();
     } else {
@@ -48,7 +48,7 @@ ParseTree* CompilerParser::compileProgram() {
     }
 
     return program;
-    return NULL;
+   
 }
 
 /**
