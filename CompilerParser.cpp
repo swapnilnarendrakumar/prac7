@@ -284,6 +284,25 @@ ParseTree* CompilerParser::compileLet() {
         } else {
             throw ParseException();
         }
+    
+    while (have("symbol","[")) {
+        lest->addChild(current()); 
+        next();
+
+        if(have("keyword", "skip")) {
+            lest->addChild(current());
+            next();
+        } else {
+            break;
+        }
+        if(have("symbol", "]")) {
+            lest->addChild(current());
+            next();
+        } else {
+            break;
+        }
+    }
+
     if (have("symbol", "=")) {
         lest->addChild(current());
         next();
