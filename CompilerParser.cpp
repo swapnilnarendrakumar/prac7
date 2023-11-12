@@ -306,6 +306,11 @@ ParseTree* CompilerParser::compileStatements() {
         statement->addChild(ret);
     }
 
+    if (have("keyword", "while")) {
+        ParseTree* whilet = compileWhile();
+        statement->addChild(whilet);
+    }
+
 
     return statement;
 
