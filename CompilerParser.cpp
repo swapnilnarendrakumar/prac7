@@ -186,7 +186,7 @@ ParseTree* CompilerParser::compileParameterList() {
                 throw ParseException();
             }
 
-            // Parse the parameter name
+          
             if (have("identifier", current()->getValue())) {
                 parameterList->addChild(new ParseTree("identifier", current()->getValue()));
                 next();
@@ -310,6 +310,15 @@ ParseTree* CompilerParser::compileReturn() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileExpression() {
+    ParseTree* expression = new ParseTree("expression", "");
+
+    if (have("keyword", "skip")) {
+        expression->addChild(new ParseTree("keyword", "skip"));
+        return expression;
+    } else {
+        throw ParseException();
+    }
+
     return NULL;
 }
 
