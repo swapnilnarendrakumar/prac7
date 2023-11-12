@@ -3,20 +3,13 @@
 using namespace std;
 
 
-/**
- * Constructor for the CompilerParser
- * @param tokens A linked list of tokens to be parsed
- */
+
 CompilerParser::CompilerParser(std::list<Token*> tokens) {
     this->tokens = tokens;
     this->currentToken = this->tokens.begin();
 }
 
 
-/**
- * Generates a parse tree for a single program
- * @return a ParseTree
- */
 ParseTree* CompilerParser::compileProgram() {
     ParseTree* program = new ParseTree("class", "");
    
@@ -50,14 +43,8 @@ ParseTree* CompilerParser::compileProgram() {
     }
 
     return program;
-    
-   
 }
 
-/**
- * Generates a parse tree for a single class
- * @return a ParseTree
- */
 ParseTree* CompilerParser::compileClass() {
     ParseTree* class1 = new ParseTree("class", "");
 
@@ -96,13 +83,9 @@ ParseTree* CompilerParser::compileClass() {
     
 
     return class1;
-    
 }
 
-/**
- * Generates a parse tree for a static variable declaration or field declaration
- * @return a ParseTree
- */
+
 ParseTree* CompilerParser::compileClassVarDec() {
     ParseTree* classVarDec = new ParseTree("classVarDec", "");
 
@@ -138,21 +121,14 @@ ParseTree* CompilerParser::compileClassVarDec() {
     }
 
     return classVarDec;
-   
 }
 
-/**
- * Generates a parse tree for a method, function, or constructor
- * @return a ParseTree
- */
+
 ParseTree* CompilerParser::compileSubroutine() {
     return NULL;
 }
 
-/**
- * Generates a parse tree for a subroutine's parameters
- * @return a ParseTree
- */
+
 ParseTree* CompilerParser::compileParameterList() {
     ParseTree* parameter = new ParseTree("parameterList", "");
 
@@ -209,6 +185,42 @@ ParseTree* CompilerParser::compileSubroutineBody() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileVarDec() {
+    ParseTree* vardec = new ParseTree("VarDec", "");
+
+    if (have("keyword", "var")) {
+        vardec->addChild(new ParseTree("keyword", "var"));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("keyword", "int")) {
+        vardec->addChild(new ParseTree("keyword", "int"));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("identifier", current()->getValue())) {
+        vardec->addChild(new ParseTree("identifier", current()->getValue()));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("symbol", ";")) {
+        vardec->addChild(new ParseTree("symbol", ";"));
+    } else {
+        throw ParseException();
+    }
+
+
+
+
+   
+
+   
+    return vardec;
     return NULL;
 }
 
