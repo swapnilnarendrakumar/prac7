@@ -294,7 +294,7 @@ ParseTree* CompilerParser::compileWhile() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileDo() {
-    ParseTree* dost = new ParseTree("dostatement", "");
+    ParseTree* dost = new ParseTree("doStatement", "");
     if (have("keyword", "do")) {
         dost->addChild(current());
         next();
