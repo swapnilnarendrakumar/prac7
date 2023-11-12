@@ -431,25 +431,10 @@ ParseTree* CompilerParser::compileIf() {
     } else {
         throw ParseException();
     }
-     if (have("symbol", "}")) {
-        ifst->addChild(current());
-        next();
-    } else {
-        throw ParseException();
-    }
-    if (have("keyword", "else")) {
-        ifst->addChild(current());
-        next();
-    } else {
-        throw ParseException();
-    }
 
-    if (have("symbol", "{")) {
-        ifst->addChild(current());
-        next();
-    } else {
-        throw ParseException();
-    }
+     ParseTree* statements = compileStatements();
+     ifst->addChild(statements);
+
      if (have("symbol", "}")) {
         ifst->addChild(current());
         next();
@@ -457,7 +442,28 @@ ParseTree* CompilerParser::compileIf() {
         throw ParseException();
     }
 
+    while (have("keyword", "else")) {
 
+        ifst->addChild(current());
+        next(); 
+    
+        if (have("symbol", "{")) {
+            ifst->addChild(current());
+            next(); 
+        } else {
+            throw ParseException();
+        }
+
+        ParseTree* statement = compileStatements();
+        ifst->addChild(statement);
+
+        if(have("symbol","}")) {
+            ifst->addChild(current());
+            next(); 
+        } else {
+            throw ParseException();
+        }
+    }
     return ifst;
 }
 
