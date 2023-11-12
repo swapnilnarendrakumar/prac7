@@ -185,7 +185,7 @@ ParseTree* CompilerParser::compileSubroutineBody() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileVarDec() {
-    ParseTree* vardec = new ParseTree("VarDec", "");
+    ParseTree* vardec = new ParseTree("varDec", "");
 
     if (have("keyword", "var")) {
         vardec->addChild(new ParseTree("keyword", "var"));
