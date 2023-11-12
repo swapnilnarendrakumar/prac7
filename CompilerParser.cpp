@@ -1,4 +1,6 @@
 #include "CompilerParser.h"
+#include <iostream>
+using namespace std;
 
 
 /**
@@ -16,15 +18,16 @@ CompilerParser::CompilerParser(std::list<Token*> tokens) {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileProgram() {
-    ParseTree* program = new ParseTree("keyword", "class");
-
+    ParseTree* program = new ParseTree("class", "");
+   
     if (have("keyword", "class")) {
         program->addChild(new ParseTree("keyword", "class"));
+        next();
     } else {
         throw ParseException();
     }
-
     
+    std :: cout << "hi" << current()->getValue() << std :: endl;
     if (have("identifier", current()->getValue())) {
         program->addChild(new ParseTree("identifier", current()->getValue()));
         next();
@@ -35,6 +38,7 @@ ParseTree* CompilerParser::compileProgram() {
     
     if (have("symbol", "{")) {
         program->addChild(new ParseTree("symbol", "{"));
+        next();
     } else {
         throw ParseException();
     }
@@ -46,6 +50,7 @@ ParseTree* CompilerParser::compileProgram() {
     }
 
     return program;
+    return NULL;
    
 }
 
@@ -62,38 +67,6 @@ ParseTree* CompilerParser::compileClass() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileClassVarDec() {
-    ParseTree* classVarDec = new ParseTree("keyword", "classVarDec");
-
-    
-    if (have("keyword", "static")) {
-        classVarDec->addChild(new ParseTree("keyword", "static"));
-    } else {
-        throw ParseException();
-    }
-
-    
-    if (have("keyword", "int")) {
-        classVarDec->addChild(new ParseTree("keyword", "int"));
-    } else {
-        throw ParseException();
-    }
-
-    
-    if (have("identifier", "")) {
-        classVarDec->addChild(new ParseTree("identifier", current()->getValue()));
-        next();
-    } else {
-        throw ParseException();
-    }
-
-   
-    if (have("symbol", ";")) {
-        classVarDec->addChild(new ParseTree("symbol", ";"));
-    } else {
-        throw ParseException();
-    }
-
-    return classVarDec;
     return NULL;
 }
 
@@ -227,8 +200,7 @@ Token* CompilerParser::current(){
  * @return true if a match, false otherwise
  */
 bool CompilerParser::have(std::string expectedType, std::string expectedValue){
-     if (currentToken != tokens.end() &&
-        (*currentToken)->getType() == expectedType && (*currentToken)->getValue() == expectedValue) {
+     if (currentToken != tokens.end() && (*currentToken)->getType() == expectedType && (*currentToken)->getValue() == expectedValue) {
         return true;
          }
     else{
