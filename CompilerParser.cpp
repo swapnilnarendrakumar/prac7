@@ -180,12 +180,9 @@ ParseTree* CompilerParser::compileSubroutineBody() {
     return NULL;
 }
 
-/**
- * Generates a parse tree for a subroutine variable declaration
- * @return a ParseTree
- */
+
 ParseTree* CompilerParser::compileVarDec() {
-    ParseTree* vardec = new ParseTree("varDec", "");
+   ParseTree* vardec = new ParseTree("varDec", "");
 
     if (have("keyword", "var")) {
         vardec->addChild(new ParseTree("keyword", "var"));
@@ -201,22 +198,25 @@ ParseTree* CompilerParser::compileVarDec() {
         throw ParseException();
     }
 
-    if (have("identifier", current()->getValue())) {
-        vardec->addChild(new ParseTree("identifier", current()->getValue()));
-        next();
-    } else {
-        throw ParseException();
-    }
+    do {
+        if (have("identifier", current()->getValue())) {
+            vardec->addChild(new ParseTree("identifier", current()->getValue()));
+            next();
+        } else {
+            throw ParseException();
+        }
 
-    if (have("symbol", ";")) {
-        vardec->addChild(new ParseTree("symbol", ";"));
-    } else {
-        throw ParseException();
-    }
+        if (have("symbol", ",")) {
+            vardec->addChild(new ParseTree("symbol", ","));
+            next();
+        } else if (have("symbol", ";")) {
+            vardec->addChild(new ParseTree("symbol", ";"));
+        } else {
+            throw ParseException();
+        }
+    } while (!have("symbol", ";"));
 
-
-
-
+    return vardec;
    
 
    
