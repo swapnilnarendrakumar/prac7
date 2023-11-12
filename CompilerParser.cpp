@@ -44,7 +44,7 @@ ParseTree* CompilerParser::compileProgram() {
         throw ParseException();
     }
 
-    return program;
+    
     return NULL;
 }
 
