@@ -89,7 +89,7 @@ ParseTree* CompilerParser::compileClassVarDec() {
         classVarDec->addChild(new ParseTree("identifier", current()->getValue()));
         next();
     } else {
-        throw ParseException();
+        //throw ParseException();
     }
 
    
