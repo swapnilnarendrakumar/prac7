@@ -270,7 +270,45 @@ ParseTree* CompilerParser::compileStatements() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileLet() {
-    return NULL;
+    ParseTree* lest = new ParseTree("letStatement", "");
+    if (have("keyword", "let")) {
+        lest->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("identifier", current()->getValue())) {
+            lest->addChild(new ParseTree("identifier", current()->getValue()));
+            next();
+        } else {
+            throw ParseException();
+        }
+    if (have("symbol", "=")) {
+        lest->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("keyword", "skip")) {
+        ParseTree* expression = compileExpression();
+        lest->addChild(expression);
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("symbol", ";")) {
+        lest->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+    
+
+    return lest;
+    
 }
 
 /**
@@ -286,7 +324,7 @@ ParseTree* CompilerParser::compileIf() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileWhile() {
-    return NULL;
+    
 }
 
 /**
