@@ -87,7 +87,7 @@ ParseTree* CompilerParser::compileClass() {
 
 
 ParseTree* CompilerParser::compileClassVarDec() {
-    ParseTree* classVarDec = new ParseTree("classVarDec", "");
+     ParseTree* classVarDec = new ParseTree("classVarDec", "");
 
     if (have("keyword", "static")) {
         classVarDec->addChild(new ParseTree("keyword", "static"));
@@ -103,36 +103,25 @@ ParseTree* CompilerParser::compileClassVarDec() {
     } else {
         throw ParseException();
     }
-
-    
-    if (have("identifier", current()->getValue())) {
-        classVarDec->addChild(new ParseTree("identifier", current()->getValue()));
-        next();
-    } else {
-        throw ParseException();
-    }
-
-   
-   while (have("symbol", ",")) {
-        classVarDec->addChild(new ParseTree("symbol", ","));
-        next();
-
+    do {
         if (have("identifier", current()->getValue())) {
             classVarDec->addChild(new ParseTree("identifier", current()->getValue()));
             next();
         } else {
             throw ParseException();
         }
-    }
 
-    if (have("symbol", ";")) {
-        classVarDec->addChild(new ParseTree("symbol", ";"));
-        next();
-    } else {
-        throw ParseException();
-    }
-
+        if (have("symbol", ",")) {
+            classVarDec->addChild(new ParseTree("symbol", ","));
+            next();
+        } else if (have("symbol", ";")) {
+            classVarDec->addChild(new ParseTree("symbol", ";"));
+        } else {
+            throw ParseException();
+        }
+    } while (!have("symbol", ";"));
     return classVarDec;
+    return NULL;
 }
 
 
