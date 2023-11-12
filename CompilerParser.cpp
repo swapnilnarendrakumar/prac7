@@ -272,8 +272,6 @@ ParseTree* CompilerParser::compileStatements() {
         ParseTree* dost = compileDo();
         statement->addChild(dost);
     }
-
-
     if (have("keyword", "return")) {
         ParseTree* ret = compileReturn();
         statement->addChild(ret);
@@ -363,6 +361,69 @@ ParseTree* CompilerParser::compileIf() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileWhile() {
+     ParseTree* whilest = new ParseTree("whileStatement", "");
+     
+    if (have("keyword", "while")) {
+        whilest->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("symbol", "(")) {
+        whilest->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("keyword", "skip")) {
+        ParseTree* expression = compileExpression();
+        whilest->addChild(expression);
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("symbol", ")")) {
+        whilest->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+
+
+
+    if (have("symbol", "{")) {
+        whilest->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+   
+    ParseTree* lets = compileStatements();
+    whilest->addChild(lets);
+
+
+
+
+    if (have("symbol", "}")) {
+        whilest->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("symbol", ";")) {
+        whilest->addChild(current());
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    return whilest;
+
+
     
 }
 
