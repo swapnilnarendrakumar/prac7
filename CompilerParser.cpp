@@ -423,7 +423,7 @@ ParseTree* CompilerParser::compileIf() {
         throw ParseException();
     }
 
-    if(have("keyword", "else")) {
+    while(have("keyword", "else")) {
         ifst->addChild(current());
         next(); 
     
