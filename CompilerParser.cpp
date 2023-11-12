@@ -319,14 +319,10 @@ ParseTree* CompilerParser::compileReturn() {
 
     if (have("symbol", ";")) {
         return1->addChild(current());
+        next();
     } else {
         throw ParseException();
     }
-
-
-
-
-
     return return1;
     
 }
