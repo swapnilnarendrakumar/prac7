@@ -362,7 +362,7 @@ ParseTree* CompilerParser::compileIf() {
  */
 ParseTree* CompilerParser::compileWhile() {
      ParseTree* whilest = new ParseTree("whileStatement", "");
-     
+
     if (have("keyword", "while")) {
         whilest->addChild(current());
         next();
@@ -401,8 +401,10 @@ ParseTree* CompilerParser::compileWhile() {
         throw ParseException();
     }
    
-    ParseTree* lets = compileStatements();
-    whilest->addChild(lets);
+    ParseTree* statement = compileStatements();
+    whilest->addChild(statement);
+    next();
+
 
 
 
