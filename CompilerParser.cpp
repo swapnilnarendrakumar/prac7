@@ -302,11 +302,14 @@ ParseTree* CompilerParser::compileDo() {
         throw ParseException();
     }
 
-    while (have("keyword", "skip")) {
+   if (have("keyword", "skip")) {
         ParseTree* expression = compileExpression();
         dost->addChild(expression);
         next();
+    } else {
+        throw ParseException();
     }
+
 
     if (have("symbol", ";")) {
         dost->addChild(current());
