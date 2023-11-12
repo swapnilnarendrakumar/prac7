@@ -403,20 +403,12 @@ ParseTree* CompilerParser::compileWhile() {
    
     ParseTree* statement = compileStatements();
     whilest->addChild(statement);
-    next();
 
 
 
 
 
     if (have("symbol", "}")) {
-        whilest->addChild(current());
-        next();
-    } else {
-        throw ParseException();
-    }
-
-    if (have("symbol", ";")) {
         whilest->addChild(current());
         next();
     } else {
