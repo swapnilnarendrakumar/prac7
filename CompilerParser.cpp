@@ -27,7 +27,7 @@ ParseTree* CompilerParser::compileProgram() {
         throw ParseException();
     }
     
-    std :: cout << "hi" << current()->getValue() << std :: endl;
+    
     if (have("identifier", current()->getValue())) {
         program->addChild(new ParseTree("identifier", current()->getValue()));
         next();
@@ -154,6 +154,45 @@ ParseTree* CompilerParser::compileSubroutine() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileParameterList() {
+    ParseTree* parameter = new ParseTree("parameterList", "");
+
+    if (have("keyword", "int")) {
+        parameter->addChild(new ParseTree("keyword", "int"));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("identifier", current()->getValue())) {
+        parameter->addChild(new ParseTree("identifier", current()->getValue()));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("symbol", ",")) {
+        parameter->addChild(new ParseTree("symbol", ","));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+
+
+    if (have("keyword", "char")) {
+        parameter->addChild(new ParseTree("keyword", "char"));
+        next();
+    } else {
+        throw ParseException();
+    }
+
+    if (have("identifier", current()->getValue())) {
+        parameter->addChild(new ParseTree("identifier", current()->getValue()));
+        next();
+    } else {
+        throw ParseException();
+    }
+    return parameter;
     return NULL;
 }
 
