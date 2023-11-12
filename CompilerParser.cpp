@@ -262,7 +262,27 @@ ParseTree* CompilerParser::compileVarDec() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileStatements() {
-    return NULL;
+    ParseTree* statement = new ParseTree("statements", "");
+    if (have("keyword", "let")) {
+        ParseTree* lets = compileLet();
+        statement->addChild(lets);
+    }
+
+    if (have("keyword", "do")) {
+        ParseTree* dost = compileDo();
+        statement->addChild(dost);
+    }
+
+
+    if (have("keyword", "return")) {
+        ParseTree* ret = compileReturn();
+        statement->addChild(ret);
+    }
+
+
+    return statement;
+
+    
 }
 
 /**
