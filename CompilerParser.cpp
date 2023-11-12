@@ -69,7 +69,7 @@ ParseTree* CompilerParser::compileClass() {
         throw ParseException();
     }
 
-    while (have("keyword", "field") || have("keyword", "static")) {
+    if (have("keyword", "field") || have("keyword", "static")) {
         ParseTree* implement = compileClassVarDec();
         class1->addChild(implement);
     } 
@@ -387,10 +387,7 @@ ParseTree* CompilerParser::compileLet() {
     
 }
 
-/**
- * Generates a parse tree for an if statement
- * @return a ParseTree
- */
+
 ParseTree* CompilerParser::compileIf() {
     ParseTree* ifst = new ParseTree("ifStatement", "");
 
@@ -445,6 +442,7 @@ ParseTree* CompilerParser::compileIf() {
     while (have("keyword", "else")) {
 
         ifst->addChild(current());
+
         next(); 
     
         if (have("symbol", "{")) {
@@ -455,6 +453,7 @@ ParseTree* CompilerParser::compileIf() {
         }
 
         ParseTree* statement = compileStatements();
+        
         ifst->addChild(statement);
 
         if(have("symbol","}")) {
@@ -566,10 +565,7 @@ ParseTree* CompilerParser::compileDo() {
    
 }
 
-/**
- * Generates a parse tree for a return statement
- * @return a ParseTree
- */
+
 ParseTree* CompilerParser::compileReturn() {
     ParseTree* return1 = new ParseTree("returnStatement", "");
     if (have("keyword", "return")) {
@@ -609,10 +605,7 @@ ParseTree* CompilerParser::compileExpression() {
    
 }
 
-/**
- * Generates a parse tree for an expression term
- * @return a ParseTree
- */
+
 ParseTree* CompilerParser::compileTerm() {
     return NULL;
 }
