@@ -302,7 +302,7 @@ ParseTree* CompilerParser::compileDo() {
  * @return a ParseTree
  */
 ParseTree* CompilerParser::compileReturn() {
-    ParseTree* return1 = new ParseTree("return", "");
+    ParseTree* return1 = new ParseTree("returnStatement", "");
     if (have("keyword", "return")) {
         return1->addChild(current());
         next();
